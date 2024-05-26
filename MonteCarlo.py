@@ -107,12 +107,24 @@ def Table(Tab):
 
     print(names[-i],points[-i])
 
-    
+def Double_Plot():
+
+  dp,(axis1,axis2)=plt.subplots(2,1,sharex=True,figsize=(15,10))
+  axis1.set_ylabel('Total Points')
+  axis2.set_ylabel('Total Elo')
+  axis2.set_xlabel('Round')
+  
+  for element in Klub_Tab:
+    axis1.plot(range(1,2*League_Size-1),element.hist_pts,color=element.color,label=element.name)
+    axis2.plot(range(1,2*League_Size-1),element.hist_elo,color=element.color,label=element.name)
+  
+  axis1.legend(loc='upper center',ncol=6,bbox_to_anchor=(0.5, 1.20))
   
 
 #----------------------Klasa-------------------------------
 
 class Klub(object):
+  
   def __init__(self, elo, punkty, przewaga, nazwa, kolor):
     self.elo = elo
     self.pts = punkty
@@ -137,14 +149,20 @@ class Klub(object):
     else:
       "Błąd w programie."
   
-  def plot_elo1(self): #plot elo
+  def plot_elo(self): #plot elo
     
     plt.plot(range(1,2*League_Size-1),self.hist_elo,color=self.color,label=self.name) #pamiętać, że tutaj jest do zmiany zawsze ilość meczy
 
-  def plot_elo(self): #plot pts ale nie chce mi się zmieniać komend na dole xd
+  def plot_pts(self): #plot pts ale nie chce mi się zmieniać komend na dole xd
     
     plt.plot(range(1,2*League_Size-1),self.hist_pts,color=self.color,label=self.name) #pamiętać, że tutaj jest do zmiany zawsze ilość meczy
 
+  def double_plot(self):
+
+    dp, axis=plt.subplots(2,1,sharex=True)
+    axis[0].plot(range(1,2*League_Size-1),self.hist_pts,color=self.color,label=self.name)
+    axis[1].plot(range(1,2*League_Size-1),self.hist_elo,color=self.color,label=self.name)
+  
   def print(self):
 
     print(self.name, self.pts)
@@ -243,30 +261,12 @@ for Match_Week in Schedule:
       
       Klub_Temp.append(Klub_Tab[Team-1])
 
+
     Match_Sim(Klub_Temp[0],Klub_Temp[1])
 
-
-
-Klub1.plot_elo()
-Klub2.plot_elo()
-Klub3.plot_elo()
-Klub4.plot_elo()
-Klub5.plot_elo()
-Klub6.plot_elo()
-Klub7.plot_elo()
-Klub8.plot_elo()
-Klub9.plot_elo()
-Klub10.plot_elo()
-Klub11.plot_elo()
-Klub12.plot_elo()
-Klub13.plot_elo()
-Klub14.plot_elo()
-Klub15.plot_elo()
-Klub16.plot_elo()
-Klub17.plot_elo()
-Klub18.plot_elo()
-
+Double_Plot()
 Table(Klub_Tab)
+
 
 
 
